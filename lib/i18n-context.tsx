@@ -14,10 +14,8 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined)
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('en')
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const savedLanguage = localStorage.getItem('language') as Language | null
     const initialLanguage = savedLanguage || 'en'
     setLanguageState(initialLanguage)
@@ -34,10 +32,6 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   }
 
   const isRTL = language === 'ur-rtl'
-
-  if (!mounted) {
-    return <>{children}</>
-  }
 
   return (
     <I18nContext.Provider value={{ language, setLanguage, t, isRTL }}>
