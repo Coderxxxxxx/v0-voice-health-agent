@@ -10,23 +10,33 @@ import { VoicePage } from "@/components/pages/voice-page"
 import { EmergencyPage } from "@/components/pages/emergency-page"
 import { LogsPage } from "@/components/pages/logs-page"
 import { PlanPage } from "@/components/pages/plan-page"
+import { SettingsPage } from "@/components/pages/settings-page"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Bell, Wifi } from "lucide-react"
+import { Bell, Wifi, Moon, Sun, Globe } from "lucide-react"
+import { useTheme } from "@/lib/theme-context"
+import { useI18n } from "@/lib/i18n-context"
+import { Button } from "@/components/ui/button"
 
-const pageTitles: Record<string, string> = {
-  dashboard: "Dashboard",
-  medications: "Medications",
-  vitals: "Health Vitals",
-  voice: "Voice Assistant",
-  emergency: "Emergency Alerts",
-  logs: "Activity Logs",
-  plan: "Medical Plan",
-  settings: "Settings",
+function PageTitles() {
+  const { t } = useI18n()
+  return {
+    dashboard: t('dashboard'),
+    medications: t('medications'),
+    vitals: t('vitals'),
+    voice: t('voice'),
+    emergency: t('emergency'),
+    logs: t('logs'),
+    plan: t('plan'),
+    settings: t('settings'),
+  }
 }
 
-export default function Home() {
+function HomeContent() {
   const [activePage, setActivePage] = useState("dashboard")
+  const { theme, toggleTheme } = useTheme()
+  const { t, language, setLanguage, isRTL } = useI18n()
+  const pageTitles = PageTitles()
 
   const renderPage = () => {
     switch (activePage) {
@@ -44,6 +54,8 @@ export default function Home() {
         return <LogsPage />
       case "plan":
         return <PlanPage />
+      case "settings":
+        return <SettingsPage />
       default:
         return <DashboardPage />
     }
@@ -53,34 +65,73 @@ export default function Home() {
     <SidebarProvider>
       <AppSidebar activePage={activePage} onNavigate={setActivePage} />
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
+        <header className={`flex h-14 shrink-0 items-center gap-2 border-b px-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <SidebarTrigger className={isRTL ? "mr-1" : "-ml-1"} />
+          <Separator orientation="vertical" className={`${isRTL ? 'ml-2' : 'mr-2'} h-4`} />
           <div className="flex flex-1 items-center justify-between">
-            <nav className="flex items-center gap-1.5 text-sm">
-              <span className="text-muted-foreground">VitaVoice</span>
+            <nav className={`flex items-center gap-1.5 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <span className="text-muted-foreground">{t('vitaVoice')}</span>
               <span className="text-muted-foreground">/</span>
               <span className="font-medium text-foreground">{pageTitles[activePage]}</span>
             </nav>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-1.5 text-xs text-muted-foreground ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <Wifi className="size-3.5 text-success" />
-                <span className="hidden sm:inline">Online</span>
+                <span className="hidden sm:inline">{t('online')}</span>
               </div>
-              <button className="relative" aria-label="Notifications">
+              
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleTheme}
+                className="p-2 h-auto"
+                aria-label="Toggle theme"
+              >
+                {theme === 'light' ? (
+                  <Moon className="size-4" />
+                ) : (
+                  <Sun className="size-4" />
+                )}
+              </Button>
+              
+              {/* Language Selector */}
+              <div className="hidden sm:flex">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    const langs: Array<'en' | 'ur-roman' | 'ur-rtl'> = ['en', 'ur-roman', 'ur-rtl']
+                    const currentIndex = langs.indexOf(language)
+                    const nextIndex = (currentIndex + 1) % langs.length
+                    setLanguage(langs[nextIndex])
+                  }}
+                  className="p-2 h-auto text-xs"
+                  title="Click to change language"
+                >
+                  <Globe className="size-4 mr-1" />
+                  {language === 'en' ? 'EN' : language === 'ur-roman' ? 'اردو' : 'UR'}
+                </Button>
+              </div>
+
+              <button className="relative" aria-label={t('notifications')}>
                 <Bell className="size-4 text-muted-foreground hover:text-foreground transition-colors" />
                 <span className="absolute -top-1 -right-1 size-2 rounded-full bg-destructive" />
               </button>
               <Badge variant="outline" className="text-[10px] hidden sm:flex">
-                Agent Active
+                {t('agentActive')}
               </Badge>
             </div>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-4 md:p-6">
+        <main className={`flex-1 overflow-auto p-4 md:p-6 ${isRTL ? 'rtl' : 'ltr'}`}>
           {renderPage()}
         </main>
       </SidebarInset>
     </SidebarProvider>
   )
+}
+
+export default function Home() {
+  return <HomeContent />
 }

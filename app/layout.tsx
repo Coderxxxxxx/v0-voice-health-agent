@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/lib/theme-context'
+import { I18nProvider } from '@/lib/i18n-context'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -39,10 +41,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        {children}
-        <Toaster position="top-right" richColors />
+        <ThemeProvider>
+          <I18nProvider>
+            {children}
+            <Toaster position="top-right" richColors />
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

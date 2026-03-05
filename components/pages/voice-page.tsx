@@ -6,8 +6,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Mic, MicOff, Send, Bot, User, Volume2 } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Mic, MicOff, Send, Bot, User, Volume2, Clock, Heart, AlertCircle, Pill } from "lucide-react"
 import { voiceInteractionLogs } from "@/lib/mock-data"
+import { useI18n } from "@/lib/i18n-context"
 
 type Message = {
   id: number
@@ -18,22 +20,25 @@ type Message = {
 }
 
 const quickCommands = [
-  "What are my medications?",
-  "Check my blood pressure",
-  "When is my next appointment?",
-  "Log vitals: BP 130/85",
-  "What should I eat today?",
+  { label: "What are my medications?", icon: Pill },
+  { label: "Check my blood pressure", icon: Heart },
+  { label: "When is my next appointment?", icon: Clock },
+  { label: "Add a reminder: Take vitamin D", icon: Pill },
+  { label: "First aid for headache", icon: AlertCircle },
 ]
 
 const aiResponses: Record<string, string> = {
   "what are my medications?": "You currently have 5 active medications: Metoprolol (50mg, twice daily), Lisinopril (10mg, once daily), Atorvastatin (20mg, once daily), Aspirin (81mg, once daily), and Metformin (500mg, twice daily).",
   "check my blood pressure": "Your latest blood pressure reading is 128/82 mmHg, recorded today. This is within normal range. Your average over the past week is 135/87 mmHg.",
   "when is my next appointment?": "Your next appointment with Dr. James Harrison (Cardiology) is scheduled for March 5, 2026 at 10:00 AM at City General Hospital.",
-  "log vitals: bp 130/85": "Blood pressure 130/85 mmHg has been recorded at the current time. This reading is within the elevated range. I recommend monitoring closely and following your low-sodium diet plan.",
-  "what should i eat today?": "Based on your DASH diet plan: Breakfast - Oatmeal with berries, lunch - Grilled salmon with leafy greens, dinner - Lean chicken with steamed vegetables. Keep sodium under 2,300mg. Increase potassium-rich foods like bananas and sweet potatoes.",
+  "add a reminder: take vitamin d": "I've added a new reminder: Take vitamin D supplement daily. Would you like to set a specific time for this reminder?",
+  "first aid for headache": "For a headache, here's what you can do: 1) Rest in a dark, quiet room, 2) Apply a cold or warm compress to your head, 3) Stay hydrated, 4) Take over-the-counter pain relievers like paracetamol if approved by your doctor. 5) If severe or persistent, seek medical attention.",
+  "update my medical history": "I'm ready to update your medical history. What new information would you like to add? You can tell me about new diagnoses, allergies, surgeries, or any other health changes.",
 }
 
 export function VoicePage() {
+  const { t } = useI18n()
+  const [activeTab, setActiveTab] = useState("chat")
   const [messages, setMessages] = useState<Message[]>(
     voiceInteractionLogs.map((log) => [
       { id: log.id * 2 - 1, role: "user" as const, content: log.command, timestamp: log.timestamp, type: log.type },
@@ -94,60 +99,68 @@ export function VoicePage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground text-balance">Voice Assistant</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground text-balance">{t('voice')}</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Interact with VitaVoice using natural language
+          {t('startConversation')}
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card className="flex flex-col h-[600px]">
-            <CardHeader className="pb-3 border-b">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                    <Bot className="size-5" />
+            <CardHeader className="pb-0 border-b">
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <Bot className="size-5" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-base font-semibold">VitaVoice Agent</CardTitle>
+                      <CardDescription className="flex items-center gap-1.5">
+                        <span className="size-2 rounded-full bg-success inline-block" />
+                        Online and listening
+                      </CardDescription>
+                    </div>
                   </div>
-                  <div>
-                    <CardTitle className="text-base font-semibold">VitaVoice Agent</CardTitle>
-                    <CardDescription className="flex items-center gap-1.5">
-                      <span className="size-2 rounded-full bg-success inline-block" />
-                      Online and listening
-                    </CardDescription>
-                  </div>
+                  <Button
+                    variant={isListening ? "destructive" : "default"}
+                    size="sm"
+                    onClick={toggleListening}
+                    className="gap-2"
+                  >
+                    {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
+                    {isListening ? t('stopRecording') : t('startRecording')}
+                  </Button>
                 </div>
-                <Button
-                  variant={isListening ? "destructive" : "default"}
-                  size="sm"
-                  onClick={toggleListening}
-                  className="gap-2"
-                >
-                  {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
-                  {isListening ? "Stop" : "Voice Mode"}
-                </Button>
-              </div>
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="chat">{t('chat')}</TabsTrigger>
+                  <TabsTrigger value="voice">{t('voice')}</TabsTrigger>
+                  <TabsTrigger value="transcripts">{t('transcripts')}</TabsTrigger>
+                </TabsList>
+              </Tabs>
             </CardHeader>
 
-            {isListening && (
-              <div className="flex items-center justify-center gap-3 bg-primary/5 border-b px-4 py-3">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-1 bg-primary rounded-full animate-pulse"
-                      style={{
-                        height: `${Math.random() * 20 + 8}px`,
-                        animationDelay: `${i * 0.15}s`,
-                      }}
-                    />
-                  ))}
+            <TabsContent value="chat" className="flex flex-col h-full flex-1 m-0">
+              {isListening && (
+                <div className="flex items-center justify-center gap-3 bg-primary/5 border-b px-4 py-3">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="w-1 bg-primary rounded-full animate-pulse"
+                        style={{
+                          height: `${Math.random() * 20 + 8}px`,
+                          animationDelay: `${i * 0.15}s`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium text-primary">Listening...</span>
                 </div>
-                <span className="text-sm font-medium text-primary">Listening...</span>
-              </div>
-            )}
+              )}
 
-            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+              <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               <div className="flex flex-col gap-4">
                 {messages.map((message) => (
                   <div
@@ -205,45 +218,100 @@ export function VoicePage() {
               </div>
             </ScrollArea>
 
-            <div className="border-t p-4">
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  handleSend()
-                }}
-                className="flex gap-2"
-              >
-                <Input
-                  placeholder="Type a command or question..."
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="flex-1"
-                />
-                <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
-                  <Send className="size-4" />
-                </Button>
-              </form>
-            </div>
+              <div className="border-t p-4">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSend()
+                  }}
+                  className="flex gap-2"
+                >
+                  <Input
+                    placeholder={t('send')}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
+                    <Send className="size-4" />
+                  </Button>
+                </form>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="voice" className="flex flex-col h-full flex-1 m-0 p-4">
+              <div className="flex flex-col items-center justify-center gap-6 h-full">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 border-2 border-primary">
+                    <Mic className="size-10 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-semibold">{t('startRecording')}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Click the microphone button in the header to start recording your voice
+                    </p>
+                  </div>
+                </div>
+                {isListening && (
+                  <div className="w-full">
+                    <div className="flex items-center justify-center gap-1 mb-4">
+                      {[...Array(15)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-1 bg-primary rounded-full"
+                          style={{
+                            height: `${Math.random() * 40 + 10}px`,
+                            animation: `pulse 0.5s ease-in-out infinite`,
+                            animationDelay: `${i * 0.1}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-center text-sm font-medium text-primary">Listening...</p>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="transcripts" className="flex flex-col h-full flex-1 m-0">
+              <ScrollArea className="flex-1 p-4">
+                <div className="space-y-3">
+                  {messages.filter(m => m.role === 'user').map((message, idx) => (
+                    <div key={`${message.id}-${idx}`} className="border rounded-lg p-3">
+                      <div className="flex items-start gap-3">
+                        <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                          <User className="size-3" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-foreground">{message.content}</p>
+                          <p className="text-[11px] text-muted-foreground mt-1">{message.timestamp}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
           </Card>
         </div>
 
         <div className="flex flex-col gap-6">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold">Quick Commands</CardTitle>
+              <CardTitle className="text-base font-semibold">{t('askMedicine')}</CardTitle>
               <CardDescription>Common voice commands</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
-              {quickCommands.map((cmd) => (
+              {quickCommands.map(({ label, icon: Icon }) => (
                 <Button
-                  key={cmd}
+                  key={label}
                   variant="outline"
                   size="sm"
                   className="justify-start text-left h-auto py-2.5 px-3 text-sm"
-                  onClick={() => handleSend(cmd)}
+                  onClick={() => handleSend(label)}
                 >
-                  <Mic className="size-3.5 mr-2 shrink-0 text-muted-foreground" />
-                  {cmd}
+                  <Icon className="size-3.5 mr-2 shrink-0 text-muted-foreground" />
+                  {label}
                 </Button>
               ))}
             </CardContent>
