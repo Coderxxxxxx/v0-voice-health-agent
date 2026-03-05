@@ -109,39 +109,41 @@ export function VoicePage() {
         <div className="lg:col-span-2">
           <Card className="flex flex-col h-[600px]">
             <CardHeader className="pb-0 border-b">
-              <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                      <Bot className="size-5" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-base font-semibold">VitaVoice Agent</CardTitle>
-                      <CardDescription className="flex items-center gap-1.5">
-                        <span className="size-2 rounded-full bg-success inline-block" />
-                        Online and listening
-                      </CardDescription>
-                    </div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <Bot className="size-5" />
                   </div>
-                  <Button
-                    variant={isListening ? "destructive" : "default"}
-                    size="sm"
-                    onClick={toggleListening}
-                    className="gap-2"
-                  >
-                    {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
-                    {isListening ? t('stopRecording') : t('startRecording')}
-                  </Button>
+                  <div>
+                    <CardTitle className="text-base font-semibold">VitaVoice Agent</CardTitle>
+                    <CardDescription className="flex items-center gap-1.5">
+                      <span className="size-2 rounded-full bg-success inline-block" />
+                      Online and listening
+                    </CardDescription>
+                  </div>
                 </div>
+                <Button
+                  variant={isListening ? "destructive" : "default"}
+                  size="sm"
+                  onClick={toggleListening}
+                  className="gap-2"
+                >
+                  {isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
+                  {isListening ? t('stopRecording') : t('startRecording')}
+                </Button>
+              </div>
+            </CardHeader>
+
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1">
+              <div className="border-b px-4">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="chat">{t('chat')}</TabsTrigger>
                   <TabsTrigger value="voice">{t('voice')}</TabsTrigger>
                   <TabsTrigger value="transcripts">{t('transcripts')}</TabsTrigger>
                 </TabsList>
-              </Tabs>
-            </CardHeader>
+              </div>
 
-            <TabsContent value="chat" className="flex flex-col h-full flex-1 m-0">
+              <TabsContent value="chat" className="flex flex-col h-full flex-1 m-0">
               {isListening && (
                 <div className="flex items-center justify-center gap-3 bg-primary/5 border-b px-4 py-3">
                   <div className="flex items-center gap-1">
@@ -292,6 +294,7 @@ export function VoicePage() {
                 </div>
               </ScrollArea>
             </TabsContent>
+            </Tabs>
           </Card>
         </div>
 
