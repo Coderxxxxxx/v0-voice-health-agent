@@ -37,7 +37,7 @@ const aiResponses: Record<string, string> = {
 }
 
 export function VoicePage() {
-  const { t } = useI18n()
+  const { t, language } = useI18n()
   const [activeTab, setActiveTab] = useState("chat")
   const [messages, setMessages] = useState<Message[]>(
     voiceInteractionLogs.map((log) => [
@@ -49,6 +49,47 @@ export function VoicePage() {
   const [isListening, setIsListening] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Auto-translate responses based on current language
+  const getLanguageSpecificResponse = (baseText: string): string => {
+    if (language === 'ur-roman' || language === 'ur-rtl') {
+      // Simple language mapping for Urdu responses
+      const urduResponses: Record<string, Record<string, string>> = {
+        "You currently have 5 active medications": {
+          'ur-roman': "Aap ke paas 5 active davayin hain: Metoprolol (50mg, din mein 2 baar), Lisinopril (10mg, din mein 1 baar), Atorvastatin (20mg, din mein 1 baar), Aspirin (81mg, din mein 1 baar), aur Metformin (500mg, din mein 2 baar).",
+          'ur-rtl': "آپ کے پاس 5 فعال دوائیں ہیں: Metoprolol (50mg، دن میں 2 بار)، Lisinopril (10mg، دن میں 1 بار)، Atorvastatin (20mg، دن میں 1 بار)، Aspirin (81mg، دن میں 1 بار)، اور Metformin (500mg، دن میں 2 بار)۔"
+        },
+        "Your latest blood pressure reading": {
+          'ur-roman': "Aapki sabse nayi blood pressure reading 128/82 mmHg hai, aaj record ki gai. Yeh normal range mein hai. Aapka guzra hua week average 135/87 mmHg tha.",
+          'ur-rtl': "آپ کی تازہ ترین بلڈ پریشر ریڈنگ 128/82 mmHg ہے، آج ریکارڈ کی گئی۔ یہ عام حد میں ہے۔ آپ کا گزشتہ ہفتہ اوسط 135/87 mmHg تھا۔"
+        },
+        "Your next appointment": {
+          'ur-roman': "Aapka agla appointment ڈاکٹر James Harrison (Cardiology) ke saath scheduled hai 5 March 2026 ko 10:00 AM par City General Hospital mein.",
+          'ur-rtl': "آپ کی اگلی ملاقات ڈاکٹر جیمز ہیریسن (کارڈیولوجی) کے ساتھ 5 مارچ 2026 کو 10:00 AM پر City General Hospital میں شیڈول ہے۔"
+        },
+        "I've added a new reminder": {
+          'ur-roman': "Main ne ek nayi reminder add kar di: Vitamin D supplement daily. Kya aap kisi specific time ke liye yeh reminder set karna chahte ho?",
+          'ur-rtl': "میں نے ایک نئی reminder شامل کی: روزانہ Vitamin D supplement۔ کیا آپ اس reminder کو کسی مخصوص وقت کے لیے سیٹ کرنا چاہتے ہیں؟"
+        },
+        "For a headache, here's what": {
+          'ur-roman': "Sar dard ke liye, yeh kuch kaam karenge: 1) Andheri, shuq jegh jagah mein aaram lein, 2) Sar par thandi ya garam compress lagayen, 3) Khub pani pien, 4) Paracetamol jaise over-the-counter pain reliever le sakte ho (agar doctor ne approve kia ho). 5) Agar bohot bura ho toh doctor se milein.",
+          'ur-rtl': "سر درد کے لیے، یہاں کچھ کام ہیں: 1) سیاہ، خاموش جگہ میں آرام کریں، 2) سر پر ٹھنڈی یا گرم پٹی لگائیں، 3) بہت پانی پیئں، 4) paracetamol جیسی دوا لے سکتے ہو (اگر ڈاکٹر نے منظوری دی ہو)۔ 5) اگر بہت بری ہو تو ڈاکٹر سے ملیں۔"
+        },
+        "I'm ready to update": {
+          'ur-roman': "Main aapki medical history update karne ke liye tayyar hoon. Kya nayi information add karna chahte ho? Aap mujhe nayi bimariyon, drug allergies, surgeries, ya kisi aur health changes ke baare mein bata sakte ho.",
+          'ur-rtl': "میں آپ کی طبی تاریخ اپ ڈیٹ کرنے کے لیے تیار ہوں۔ آپ کیا نئی معلومات شامل کرنا چاہتے ہیں؟ آپ مجھے نئی بیماریوں، دوائوں سے الرجی، سرجریز، یا کسی دوسری صحتی تبدیلیوں کے بارے میں بتا سکتے ہو۔"
+        }
+      }
+
+      // Check if response matches any of our translation keys
+      for (const [key, translations] of Object.entries(urduResponses)) {
+        if (baseText.includes(key)) {
+          return translations[language] || baseText
+        }
+      }
+    }
+    return baseText
+  }
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -72,8 +113,10 @@ export function VoicePage() {
     setIsProcessing(true)
 
     setTimeout(() => {
-      const responseText = aiResponses[messageText.toLowerCase()] ||
+      const baseResponse = aiResponses[messageText.toLowerCase()] ||
         "I understand your request. Based on your health profile, I recommend consulting with Dr. Harrison for specific medical advice. Is there anything else I can help you with?"
+
+      const responseText = getLanguageSpecificResponse(baseResponse)
 
       const assistantMessage: Message = {
         id: messages.length + 2,
@@ -105,9 +148,9 @@ export function VoicePage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <Card className="flex flex-col h-[600px]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 h-[calc(100vh-200px)]">
+        <div className="lg:col-span-2 flex flex-col min-h-0">
+          <Card className="flex flex-col flex-1 overflow-hidden">
             <CardHeader className="pb-0 border-b">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -134,8 +177,8 @@ export function VoicePage() {
               </div>
             </CardHeader>
 
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1">
-              <div className="border-b px-4">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
+              <div className="border-b px-4 shrink-0">
                 <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="chat">{t('chat')}</TabsTrigger>
                   <TabsTrigger value="voice">{t('voice')}</TabsTrigger>
@@ -143,26 +186,26 @@ export function VoicePage() {
                 </TabsList>
               </div>
 
-              <TabsContent value="chat" className="flex flex-col h-full flex-1 m-0">
-              {isListening && (
-                <div className="flex items-center justify-center gap-3 bg-primary/5 border-b px-4 py-3">
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="w-1 bg-primary rounded-full animate-pulse"
-                        style={{
-                          height: `${Math.random() * 20 + 8}px`,
-                          animationDelay: `${i * 0.15}s`,
-                        }}
-                      />
-                    ))}
+              <TabsContent value="chat" className="flex flex-col flex-1 m-0 min-h-0 overflow-hidden">
+                {isListening && (
+                  <div className="flex items-center justify-center gap-3 bg-primary/5 border-b px-4 py-3 shrink-0">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-1 bg-primary rounded-full animate-pulse"
+                          style={{
+                            height: `${Math.random() * 20 + 8}px`,
+                            animationDelay: `${i * 0.15}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm font-medium text-primary">Listening...</span>
                   </div>
-                  <span className="text-sm font-medium text-primary">Listening...</span>
-                </div>
-              )}
+                )}
 
-              <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+                <ScrollArea className="flex-1 min-h-0 p-4" ref={scrollRef}>
               <div className="flex flex-col gap-4">
                 {messages.map((message) => (
                   <div
@@ -218,31 +261,32 @@ export function VoicePage() {
                   </div>
                 )}
               </div>
-            </ScrollArea>
+                </ScrollArea>
+                </ScrollArea>
 
-              <div className="border-t p-4">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    handleSend()
-                  }}
-                  className="flex gap-2"
-                >
-                  <Input
-                    placeholder={t('send')}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
-                    <Send className="size-4" />
-                  </Button>
-                </form>
-              </div>
-            </TabsContent>
+                <div className="border-t p-4 shrink-0">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      handleSend()
+                    }}
+                    className="flex gap-2"
+                  >
+                    <Input
+                      placeholder={t('send')}
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      className="flex-1"
+                    />
+                    <Button type="submit" size="icon" disabled={!input.trim() || isProcessing}>
+                      <Send className="size-4" />
+                    </Button>
+                  </form>
+                </div>
+              </TabsContent>
 
-            <TabsContent value="voice" className="flex flex-col h-full flex-1 m-0 p-4">
-              <div className="flex flex-col items-center justify-center gap-6 h-full">
+            <TabsContent value="voice" className="flex flex-col flex-1 m-0 p-4 min-h-0 overflow-hidden">
+              <div className="flex flex-col items-center justify-center gap-6 flex-1">
                 <div className="flex flex-col items-center gap-3">
                   <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 border-2 border-primary">
                     <Mic className="size-10 text-primary" />
@@ -275,8 +319,8 @@ export function VoicePage() {
               </div>
             </TabsContent>
 
-            <TabsContent value="transcripts" className="flex flex-col h-full flex-1 m-0">
-              <ScrollArea className="flex-1 p-4">
+            <TabsContent value="transcripts" className="flex flex-col flex-1 m-0 min-h-0 overflow-hidden">
+              <ScrollArea className="flex-1 min-h-0 p-4">
                 <div className="space-y-3">
                   {messages.filter(m => m.role === 'user').map((message, idx) => (
                     <div key={`${message.id}-${idx}`} className="border rounded-lg p-3">

@@ -13,7 +13,7 @@ import { PlanPage } from "@/components/pages/plan-page"
 import { SettingsPage } from "@/components/pages/settings-page"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
-import { Bell, Wifi, Moon, Sun, Globe } from "lucide-react"
+import { Bell, Wifi, Moon, Sun } from "lucide-react"
 import { useTheme } from "@/lib/theme-context"
 import { useI18n } from "@/lib/i18n-context"
 import { Button } from "@/components/ui/button"
@@ -61,7 +61,7 @@ export function HomePage() {
     <SidebarProvider>
       <AppSidebar activePage={activePage} onNavigate={setActivePage} />
       <SidebarInset>
-        <header className={`flex h-14 shrink-0 items-center gap-2 border-b px-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <header className={`flex h-14 shrink-0 items-center gap-2 border-b px-4 bg-background transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}>
           <SidebarTrigger className={isRTL ? "mr-1" : "-ml-1"} />
           <Separator orientation="vertical" className={`${isRTL ? 'ml-2' : 'mr-2'} h-4`} />
           <div className="flex flex-1 items-center justify-between">
@@ -89,24 +89,6 @@ export function HomePage() {
                   <Sun className="size-4" />
                 )}
               </Button>
-              
-              <div className="hidden sm:flex">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    const langs: Array<'en' | 'ur-roman' | 'ur-rtl'> = ['en', 'ur-roman', 'ur-rtl']
-                    const currentIndex = langs.indexOf(language)
-                    const nextIndex = (currentIndex + 1) % langs.length
-                    setLanguage(langs[nextIndex])
-                  }}
-                  className="p-2 h-auto text-xs"
-                  title="Click to change language"
-                >
-                  <Globe className="size-4 mr-1" />
-                  {language === 'en' ? 'EN' : language === 'ur-roman' ? 'اردو' : 'UR'}
-                </Button>
-              </div>
 
               <button className="relative" aria-label={t('notifications')}>
                 <Bell className="size-4 text-muted-foreground hover:text-foreground transition-colors" />

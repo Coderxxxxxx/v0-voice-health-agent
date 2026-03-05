@@ -6,19 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
-import { Moon, Sun, Globe, Bell, Lock, User } from 'lucide-react'
-
-type Language = 'en' | 'ur-roman' | 'ur-rtl'
+import { Moon, Sun, Bell, Lock, User } from 'lucide-react'
 
 export function SettingsPage() {
   const { theme, toggleTheme } = useTheme()
-  const { language, setLanguage, t, isRTL } = useI18n()
-
-  const languages: Array<{ value: Language; label: string }> = [
-    { value: 'en', label: 'English' },
-    { value: 'ur-roman', label: 'اردو (Roman)' },
-    { value: 'ur-rtl', label: 'اردو' },
-  ]
+  const { t, isRTL } = useI18n()
 
   return (
     <div className={`space-y-6 ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -63,36 +55,6 @@ export function SettingsPage() {
                 </>
               )}
             </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Language Settings */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Globe className="size-5" />
-            {t('language')}
-          </CardTitle>
-          <CardDescription>
-            Choose your preferred language
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {languages.map((lang) => (
-              <Button
-                key={lang.value}
-                variant={language === lang.value ? 'default' : 'outline'}
-                onClick={() => setLanguage(lang.value)}
-                className="justify-start"
-              >
-                {lang.label}
-                {language === lang.value && (
-                  <Badge variant="secondary" className="ml-auto size-2 rounded-full p-0" />
-                )}
-              </Button>
-            ))}
           </div>
         </CardContent>
       </Card>
