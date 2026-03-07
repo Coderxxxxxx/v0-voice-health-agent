@@ -206,60 +206,61 @@ export function VoicePage() {
                 )}
 
                 <ScrollArea className="flex-1 min-h-0 p-4" ref={scrollRef}>
-              <div className="flex flex-col gap-4">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
-                  >
-                    <div
-                      className={`flex size-8 shrink-0 items-center justify-center rounded-full ${
-                        message.role === "user"
-                          ? "bg-secondary text-secondary-foreground"
-                          : "bg-primary text-primary-foreground"
-                      }`}
-                    >
-                      {message.role === "user" ? <User className="size-4" /> : <Bot className="size-4" />}
-                    </div>
-                    <div
-                      className={`flex flex-col gap-1 max-w-[75%] ${
-                        message.role === "user" ? "items-end" : "items-start"
-                      }`}
-                    >
+                  <div className="flex flex-col gap-4">
+                    {messages.map((message) => (
                       <div
-                        className={`rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
-                          message.role === "user"
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-secondary-foreground"
-                        }`}
+                        key={message.id}
+                        className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
                       >
-                        {message.content}
+                        <div
+                          className={`flex size-8 shrink-0 items-center justify-center rounded-full ${
+                            message.role === "user"
+                              ? "bg-secondary text-secondary-foreground"
+                              : "bg-primary text-primary-foreground"
+                          }`}
+                        >
+                          {message.role === "user" ? <User className="size-4" /> : <Bot className="size-4" />}
+                        </div>
+                        <div
+                          className={`flex flex-col gap-1 max-w-[75%] ${
+                            message.role === "user" ? "items-end" : "items-start"
+                          }`}
+                        >
+                          <div
+                            className={`rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
+                              message.role === "user"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-secondary text-secondary-foreground"
+                            }`}
+                          >
+                            {message.content}
+                          </div>
+                          <div className="flex items-center gap-2 px-1">
+                            <span className="text-[11px] text-muted-foreground">{message.timestamp}</span>
+                            {message.role === "assistant" && (
+                              <button className="text-muted-foreground hover:text-foreground transition-colors">
+                                <Volume2 className="size-3" />
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 px-1">
-                        <span className="text-[11px] text-muted-foreground">{message.timestamp}</span>
-                        {message.role === "assistant" && (
-                          <button className="text-muted-foreground hover:text-foreground transition-colors">
-                            <Volume2 className="size-3" />
-                          </button>
-                        )}
+                    ))}
+                    {isProcessing && (
+                      <div className="flex gap-3">
+                        <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                          <Bot className="size-4" />
+                        </div>
+                        <div className="rounded-xl bg-secondary px-4 py-3">
+                          <div className="flex gap-1">
+                            <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "0ms" }} />
+                            <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "150ms" }} />
+                            <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "300ms" }} />
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
-                ))}
-                {isProcessing && (
-                  <div className="flex gap-3">
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                      <Bot className="size-4" />
-                    </div>
-                    <div className="rounded-xl bg-secondary px-4 py-3">
-                      <div className="flex gap-1">
-                        <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "0ms" }} />
-                        <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "150ms" }} />
-                        <div className="size-2 rounded-full bg-muted-foreground animate-bounce" style={{ animationDelay: "300ms" }} />
-                      </div>
-                    </div>
-                  </div>
-                )}
                 </ScrollArea>
 
                 <div className="border-t p-4 shrink-0">
