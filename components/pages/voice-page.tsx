@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mic, MicOff, Send, Bot, User, Volume2, Clock, Heart, AlertCircle, Pill } from "lucide-react"
 import { voiceInteractionLogs } from "@/lib/mock-data"
 import { useI18n } from "@/lib/i18n-context"
+import { detectLanguage, detectEnglishDialect, getLanguageSpecificGreeting } from "@/lib/language-detector"
 
 type Message = {
   id: number
@@ -17,6 +18,8 @@ type Message = {
   content: string
   timestamp: string
   type?: string
+  detectedLanguage?: 'en' | 'ur-roman' | 'ur-rtl'
+  dialect?: string
 }
 
 const quickCommands = [
@@ -29,8 +32,11 @@ const quickCommands = [
 
 const aiResponses: Record<string, string> = {
   "what are my medications?": "You currently have 5 active medications: Metoprolol (50mg, twice daily), Lisinopril (10mg, once daily), Atorvastatin (20mg, once daily), Aspirin (81mg, once daily), and Metformin (500mg, twice daily).",
+  "what're my medications?": "You currently have 5 active medications: Metoprolol (50mg, twice daily), Lisinopril (10mg, once daily), Atorvastatin (20mg, once daily), Aspirin (81mg, once daily), and Metformin (500mg, twice daily).",
   "check my blood pressure": "Your latest blood pressure reading is 128/82 mmHg, recorded today. This is within normal range. Your average over the past week is 135/87 mmHg.",
+  "what's my blood pressure": "Your latest blood pressure reading is 128/82 mmHg, recorded today. This is within normal range. Your average over the past week is 135/87 mmHg.",
   "when is my next appointment?": "Your next appointment with Dr. James Harrison (Cardiology) is scheduled for March 5, 2026 at 10:00 AM at City General Hospital.",
+  "when's my next appointment": "Your next appointment with Dr. James Harrison (Cardiology) is scheduled for March 5, 2026 at 10:00 AM at City General Hospital.",
   "add a reminder: take vitamin d": "I've added a new reminder: Take vitamin D supplement daily. Would you like to set a specific time for this reminder?",
   "first aid for headache": "For a headache, here's what you can do: 1) Rest in a dark, quiet room, 2) Apply a cold or warm compress to your head, 3) Stay hydrated, 4) Take over-the-counter pain relievers like paracetamol if approved by your doctor. 5) If severe or persistent, seek medical attention.",
   "update my medical history": "I'm ready to update your medical history. What new information would you like to add? You can tell me about new diagnoses, allergies, surgeries, or any other health changes.",
@@ -50,9 +56,10 @@ export function VoicePage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Auto-translate responses based on current language
-  const getLanguageSpecificResponse = (baseText: string): string => {
-    if (language === 'ur-roman' || language === 'ur-rtl') {
+  // Auto-translate responses based on detected language from user input
+  const getLanguageSpecificResponse = (baseText: string, detectedLang?: string): string => {
+    const targetLang = detectedLang || language
+    if (targetLang === 'ur-roman' || targetLang === 'ur-rtl') {
       // Simple language mapping for Urdu responses
       const urduResponses: Record<string, Record<string, string>> = {
         "You currently have 5 active medications": {
@@ -84,7 +91,7 @@ export function VoicePage() {
       // Check if response matches any of our translation keys
       for (const [key, translations] of Object.entries(urduResponses)) {
         if (baseText.includes(key)) {
-          return translations[language] || baseText
+          return translations[targetLang] || baseText
         }
       }
     }
@@ -101,28 +108,37 @@ export function VoicePage() {
     const messageText = text || input
     if (!messageText.trim()) return
 
-    const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+    setIsProcessing(true)
+
+    const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    
+    // Auto-detect language from user input
+    const detectedLang = detectLanguage(messageText)
+    const dialect = detectedLang === 'en' ? detectEnglishDialect(messageText) : undefined
+
     const userMessage: Message = {
       id: messages.length + 1,
       role: "user",
       content: messageText,
       timestamp: now,
+      detectedLanguage: detectedLang,
+      dialect: dialect,
     }
     setMessages((prev) => [...prev, userMessage])
     setInput("")
-    setIsProcessing(true)
 
     setTimeout(() => {
       const baseResponse = aiResponses[messageText.toLowerCase()] ||
         "I understand your request. Based on your health profile, I recommend consulting with Dr. Harrison for specific medical advice. Is there anything else I can help you with?"
 
-      const responseText = getLanguageSpecificResponse(baseResponse)
+      const responseText = getLanguageSpecificResponse(baseResponse, detectedLang)
 
       const assistantMessage: Message = {
         id: messages.length + 2,
         role: "assistant",
         content: responseText,
         timestamp: now,
+        detectedLanguage: detectedLang,
       }
       setMessages((prev) => [...prev, assistantMessage])
       setIsProcessing(false)
@@ -328,8 +344,20 @@ export function VoicePage() {
                           <User className="size-3" />
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-foreground">{message.content}</p>
-                          <p className="text-[11px] text-muted-foreground mt-1">{message.timestamp}</p>
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-sm font-medium text-foreground flex-1">{message.content}</p>
+                            {message.detectedLanguage && (
+                              <Badge variant="outline" className="text-[10px] shrink-0">
+                                {message.detectedLanguage === 'en' ? '🇬🇧 English' : message.detectedLanguage === 'ur-roman' ? '🇵🇰 Roman Urdu' : '🇵🇰 اردو'}
+                              </Badge>
+                            )}
+                            {message.dialect && message.detectedLanguage === 'en' && (
+                              <Badge variant="secondary" className="text-[10px] shrink-0">
+                                {message.dialect}
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-muted-foreground">{message.timestamp}</p>
                         </div>
                       </div>
                     </div>
