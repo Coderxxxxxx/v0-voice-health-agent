@@ -260,8 +260,6 @@ export function VoicePage() {
                     </div>
                   </div>
                 )}
-              </div>
-                </ScrollArea>
                 </ScrollArea>
 
                 <div className="border-t p-4 shrink-0">
