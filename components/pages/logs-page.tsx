@@ -39,8 +39,8 @@ export function LogsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Waqt</TableHead>
-                    <TableHead className="w-[80px]">Qism</TableHead>
+                    <TableHead className="w-[100px]">Time</TableHead>
+                    <TableHead className="w-[80px]">Type</TableHead>
                     <TableHead>User Command</TableHead>
                     <TableHead>System Response</TableHead>
                   </TableRow>
