@@ -111,7 +111,7 @@ export function VoicePage() {
     setIsProcessing(true)
 
     const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-    
+
     // Auto-detect language from user input
     const detectedLang = detectLanguage(messageText)
     const dialect = detectedLang === 'en' ? detectEnglishDialect(messageText) : undefined
@@ -196,9 +196,9 @@ export function VoicePage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
               <div className="border-b px-4 shrink-0">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="chat">Chat (Urdu)</TabsTrigger>
-                  <TabsTrigger value="voice">Awaaz Mode</TabsTrigger>
-                  <TabsTrigger value="transcripts">Likhat (Transcripts)</TabsTrigger>
+                  <TabsTrigger value="chat">Chat</TabsTrigger>
+                  <TabsTrigger value="voice"><Voice></Voice> Mode</TabsTrigger>
+                  <TabsTrigger value="transcripts">Transcripts</TabsTrigger>
                 </TabsList>
               </div>
 
@@ -229,25 +229,22 @@ export function VoicePage() {
                         className={`flex gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}
                       >
                         <div
-                          className={`flex size-8 shrink-0 items-center justify-center rounded-full ${
-                            message.role === "user"
+                          className={`flex size-8 shrink-0 items-center justify-center rounded-full ${message.role === "user"
                               ? "bg-secondary text-secondary-foreground"
                               : "bg-primary text-primary-foreground"
-                          }`}
+                            }`}
                         >
                           {message.role === "user" ? <User className="size-4" /> : <Bot className="size-4" />}
                         </div>
                         <div
-                          className={`flex flex-col gap-1 max-w-[75%] ${
-                            message.role === "user" ? "items-end" : "items-start"
-                          }`}
+                          className={`flex flex-col gap-1 max-w-[75%] ${message.role === "user" ? "items-end" : "items-start"
+                            }`}
                         >
                           <div
-                            className={`rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
-                              message.role === "user"
+                            className={`rounded-xl px-4 py-2.5 text-sm leading-relaxed ${message.role === "user"
                                 ? "bg-primary text-primary-foreground"
                                 : "bg-secondary text-secondary-foreground"
-                            }`}
+                              }`}
                           >
                             {message.content}
                           </div>
@@ -300,71 +297,71 @@ export function VoicePage() {
                 </div>
               </TabsContent>
 
-            <TabsContent value="voice" className="flex flex-col flex-1 m-0 p-4 min-h-0 overflow-hidden">
-              <div className="flex flex-col items-center justify-center gap-6 flex-1">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 border-2 border-primary">
-                    <Mic className="size-10 text-primary" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="font-semibold">{t('startRecording')}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Apni awaz record karne ke liye header mein microphone button par click karen
-                    </p>
-                  </div>
-                </div>
-                {isListening && (
-                  <div className="w-full">
-                    <div className="flex items-center justify-center gap-1 mb-4">
-                      {[...Array(15)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-1 bg-primary rounded-full"
-                          style={{
-                            height: `${Math.random() * 40 + 10}px`,
-                            animation: `pulse 0.5s ease-in-out infinite`,
-                            animationDelay: `${i * 0.1}s`,
-                          }}
-                        />
-                      ))}
+              <TabsContent value="voice" className="flex flex-col flex-1 m-0 p-4 min-h-0 overflow-hidden">
+                <div className="flex flex-col items-center justify-center gap-6 flex-1">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="flex size-20 items-center justify-center rounded-full bg-primary/10 border-2 border-primary">
+                      <Mic className="size-10 text-primary" />
                     </div>
-                    <p className="text-center text-sm font-medium text-primary">Suntaa hoon...</p>
+                    <div className="text-center">
+                      <h3 className="font-semibold">{t('startRecording')}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Apni awaz record karne ke liye header mein microphone button par click karen
+                      </p>
+                    </div>
                   </div>
-                )}
-              </div>
-            </TabsContent>
+                  {isListening && (
+                    <div className="w-full">
+                      <div className="flex items-center justify-center gap-1 mb-4">
+                        {[...Array(15)].map((_, i) => (
+                          <div
+                            key={i}
+                            className="w-1 bg-primary rounded-full"
+                            style={{
+                              height: `${Math.random() * 40 + 10}px`,
+                              animation: `pulse 0.5s ease-in-out infinite`,
+                              animationDelay: `${i * 0.1}s`,
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <p className="text-center text-sm font-medium text-primary">Suntaa hoon...</p>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
 
-            <TabsContent value="transcripts" className="flex flex-col flex-1 m-0 min-h-0 overflow-hidden">
-              <ScrollArea className="flex-1 min-h-0 p-4">
-                <div className="space-y-3">
-                  {messages.filter(m => m.role === 'user').map((message, idx) => (
-                    <div key={`${message.id}-${idx}`} className="border rounded-lg p-3">
-                      <div className="flex items-start gap-3">
-                        <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-                          <User className="size-3" />
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="text-sm font-medium text-foreground flex-1">{message.content}</p>
-                            {message.detectedLanguage && (
-                              <Badge variant="outline" className="text-[10px] shrink-0">
-                                {message.detectedLanguage === 'en' ? '🇬🇧 English' : message.detectedLanguage === 'ur-roman' ? '🇵🇰 Roman Urdu' : '🇵🇰 اردو'}
-                              </Badge>
-                            )}
-                            {message.dialect && message.detectedLanguage === 'en' && (
-                              <Badge variant="secondary" className="text-[10px] shrink-0">
-                                {message.dialect}
-                              </Badge>
-                            )}
+              <TabsContent value="transcripts" className="flex flex-col flex-1 m-0 min-h-0 overflow-hidden">
+                <ScrollArea className="flex-1 min-h-0 p-4">
+                  <div className="space-y-3">
+                    {messages.filter(m => m.role === 'user').map((message, idx) => (
+                      <div key={`${message.id}-${idx}`} className="border rounded-lg p-3">
+                        <div className="flex items-start gap-3">
+                          <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+                            <User className="size-3" />
                           </div>
-                          <p className="text-[11px] text-muted-foreground">{message.timestamp}</p>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <p className="text-sm font-medium text-foreground flex-1">{message.content}</p>
+                              {message.detectedLanguage && (
+                                <Badge variant="outline" className="text-[10px] shrink-0">
+                                  {message.detectedLanguage === 'en' ? '🇬🇧 English' : message.detectedLanguage === 'ur-roman' ? '🇵🇰 Roman Urdu' : '🇵🇰 اردو'}
+                                </Badge>
+                              )}
+                              {message.dialect && message.detectedLanguage === 'en' && (
+                                <Badge variant="secondary" className="text-[10px] shrink-0">
+                                  {message.dialect}
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-muted-foreground">{message.timestamp}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </ScrollArea>
-            </TabsContent>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
             </Tabs>
           </Card>
         </div>
@@ -401,15 +398,14 @@ export function VoicePage() {
                 <div key={log.id} className="flex items-start gap-3 rounded-lg border p-2.5">
                   <Badge
                     variant="outline"
-                    className={`text-[10px] shrink-0 mt-0.5 ${
-                      log.type === "reminder"
+                    className={`text-[10px] shrink-0 mt-0.5 ${log.type === "reminder"
                         ? "border-primary/30 text-primary"
                         : log.type === "confirmation"
                           ? "border-success/30 text-success"
                           : log.type === "query"
                             ? "border-chart-4/30 text-chart-4"
                             : "border-muted-foreground/30 text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     {log.type}
                   </Badge>
