@@ -230,8 +230,8 @@ export function VoicePage() {
                       >
                         <div
                           className={`flex size-8 shrink-0 items-center justify-center rounded-full ${message.role === "user"
-                              ? "bg-secondary text-secondary-foreground"
-                              : "bg-primary text-primary-foreground"
+                            ? "bg-secondary text-secondary-foreground"
+                            : "bg-primary text-primary-foreground"
                             }`}
                         >
                           {message.role === "user" ? <User className="size-4" /> : <Bot className="size-4" />}
@@ -242,8 +242,8 @@ export function VoicePage() {
                         >
                           <div
                             className={`rounded-xl px-4 py-2.5 text-sm leading-relaxed ${message.role === "user"
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-secondary text-secondary-foreground"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-secondary text-secondary-foreground"
                               }`}
                           >
                             {message.content}
@@ -399,12 +399,12 @@ export function VoicePage() {
                   <Badge
                     variant="outline"
                     className={`text-[10px] shrink-0 mt-0.5 ${log.type === "reminder"
-                        ? "border-primary/30 text-primary"
-                        : log.type === "confirmation"
-                          ? "border-success/30 text-success"
-                          : log.type === "query"
-                            ? "border-chart-4/30 text-chart-4"
-                            : "border-muted-foreground/30 text-muted-foreground"
+                      ? "border-primary/30 text-primary"
+                      : log.type === "confirmation"
+                        ? "border-success/30 text-success"
+                        : log.type === "query"
+                          ? "border-chart-4/30 text-chart-4"
+                          : "border-muted-foreground/30 text-muted-foreground"
                       }`}
                   >
                     {log.type}
