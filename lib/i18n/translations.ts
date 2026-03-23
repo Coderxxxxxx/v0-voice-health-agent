@@ -11,7 +11,7 @@ export const translations = {
     logs: 'Activity Logs',
     plan: 'Medical Plan',
     settings: 'Settings',
-    
+
     // Common
     online: 'Online',
     agentActive: 'Agent Active',
@@ -25,7 +25,7 @@ export const translations = {
     delete: 'Delete',
     add: 'Add',
     close: 'Close',
-    
+
     // Voice Assistant
     startConversation: 'Start a conversation with VitaVoice',
     askMedicine: 'Ask about medications',
@@ -39,7 +39,7 @@ export const translations = {
     stopRecording: 'Stop Recording',
     send: 'Send',
     typing: 'VitaVoice is typing...',
-    
+
     // Settings
     theme: 'Theme',
     language: 'Language',
@@ -52,27 +52,27 @@ export const translations = {
     enableLocationAccess: 'Enable location access for emergencies',
     emergencyContact: 'Emergency Contact',
     dataPrivacy: 'Data Privacy',
-    
+
     // Medications
     takeMedicine: 'Take Medicine',
     medicationTime: 'Time to take your medication',
     confirm: 'Confirm Taken',
     skip: 'Skip',
-    
+
     // Health Stats
     bloodPressure: 'Blood Pressure',
     heartRate: 'Heart Rate',
     oxygenLevel: 'Oxygen Level',
     bloodSugar: 'Blood Sugar',
     temperature: 'Temperature',
-    
+
     // Emergency
     emergencyAlerts: 'Emergency Alerts',
     callDoctor: 'Call Doctor',
     callAmbulance: 'Call Ambulance',
     recentAlerts: 'Recent Alerts',
   },
-  
+
   'ur-roman': {
     // Navigation
     dashboard: 'ڈیش بورڈ',
@@ -83,7 +83,7 @@ export const translations = {
     logs: 'سرگرمی کی فہرست',
     plan: 'طبی منصوبہ',
     settings: 'ترتیبات',
-    
+
     // Common
     online: 'آن لائن',
     agentActive: 'ایجنٹ فعال',
@@ -97,7 +97,7 @@ export const translations = {
     delete: 'حذف کریں',
     add: 'شامل کریں',
     close: 'بند کریں',
-    
+
     // Voice Assistant
     startConversation: 'ویتا وائس کے ساتھ بات کریں',
     askMedicine: 'اپنی ادویات کے بارے میں پوچھیں',
@@ -111,7 +111,7 @@ export const translations = {
     stopRecording: 'ریکارڈنگ روکیں',
     send: 'بھیجیں',
     typing: 'ویتا وائس ٹائپ کر رہی ہے...',
-    
+
     // Settings
     theme: 'تھیم',
     language: 'زبان',
@@ -124,27 +124,27 @@ export const translations = {
     enableLocationAccess: 'ایمرجنسی کے لیے مقام کی رسائی فعال کریں',
     emergencyContact: 'ایمرجنسی رابطہ',
     dataPrivacy: 'ڈیٹا کی رازداری',
-    
+
     // Medications
     takeMedicine: 'دوا لیں',
     medicationTime: 'آپ کی دوا لینے کا وقت ہے',
     confirm: 'تصدیق کریں لیا',
     skip: 'چھوڑ دیں',
-    
+
     // Health Stats
     bloodPressure: 'بلڈ پریشر',
     heartRate: 'دل کی دھڑکن',
     oxygenLevel: 'آکسیجن کی سطح',
     bloodSugar: 'بلڈ شوگر',
     temperature: 'درجہ حرارت',
-    
+
     // Emergency
     emergencyAlerts: 'ایمرجنسی الرٹس',
     callDoctor: 'ڈاکٹر کو کال کریں',
     callAmbulance: 'ایمبولینس بلائیں',
     recentAlerts: 'حالیہ الرٹس',
   },
-  
+
   'ur-rtl': {
     // Navigation
     dashboard: 'ڈیش بورڈ',
@@ -155,7 +155,7 @@ export const translations = {
     logs: 'سرگرمی کی فہرست',
     plan: 'طبی منصوبہ',
     settings: 'ترتیبات',
-    
+
     // Common
     online: 'آن لائن',
     agentActive: 'ایجنٹ فعال',
@@ -169,7 +169,7 @@ export const translations = {
     delete: 'حذف کریں',
     add: 'شامل کریں',
     close: 'بند کریں',
-    
+
     // Voice Assistant
     startConversation: 'ویتا وائس کے ساتھ بات کریں',
     askMedicine: 'اپنی ادویات کے بارے میں پوچھیں',
@@ -183,7 +183,7 @@ export const translations = {
     stopRecording: 'ریکارڈنگ روکیں',
     send: 'بھیجیں',
     typing: 'ویتا وائس ٹائپ کر رہی ہے...',
-    
+
     // Settings
     theme: 'تھیم',
     language: 'زبان',
@@ -196,20 +196,20 @@ export const translations = {
     enableLocationAccess: 'ایمرجنسی کے لیے مقام کی رسائی فعال کریں',
     emergencyContact: 'ایمرجنسی رابطہ',
     dataPrivacy: 'ڈیٹا کی رازداری',
-    
+
     // Medications
     takeMedicine: 'دوا لیں',
     medicationTime: 'آپ کی دوا لینے کا وقت ہے',
     confirm: 'تصدیق کریں لیا',
     skip: 'چھوڑ دیں',
-    
+
     // Health Stats
     bloodPressure: 'بلڈ پریشر',
     heartRate: 'دل کی دھڑکن',
     oxygenLevel: 'آکسیجن کی سطح',
     bloodSugar: 'بلڈ شوگر',
     temperature: 'درجہ حرارت',
-    
+
     // Emergency
     emergencyAlerts: 'ایمرجنسی الرٹس',
     callDoctor: 'ڈاکٹر کو کال کریں',
