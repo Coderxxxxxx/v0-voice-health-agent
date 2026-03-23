@@ -13,13 +13,12 @@ interface I18nContextType {
 const I18nContext = createContext<I18nContextType | undefined>(undefined)
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
-  // Default to Roman Urdu for Pakistan
-  const [language, setLanguageState] = useState<Language>('ur-roman')
+  const [language, setLanguageState] = useState<Language>('en')
 
   useEffect(() => {
     try {
       const savedLanguage = localStorage.getItem('language') as Language | null
-      const initialLanguage = savedLanguage || 'ur-roman'
+      const initialLanguage = savedLanguage || 'en'
       if (initialLanguage !== language) {
         setLanguageState(initialLanguage)
       }
@@ -55,7 +54,7 @@ export function useI18n() {
   const context = useContext(I18nContext)
   if (context === undefined) {
     return {
-      language: 'ur-roman' as Language,
+      language: 'en' as Language,
       setLanguage: () => {},
       t: (key: string) => key,
       isRTL: false,
