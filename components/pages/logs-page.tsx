@@ -53,14 +53,14 @@ export function LogsPage() {
                         <Badge
                           variant="outline"
                           className={`text-[10px] ${log.type === "reminder"
-                              ? "border-primary/30 text-primary"
-                              : log.type === "confirmation"
-                                ? "border-success/30 text-success"
-                                : log.type === "query"
-                                  ? "border-chart-4/30 text-chart-4"
-                                  : log.type === "log"
-                                    ? "border-chart-1/30 text-chart-1"
-                                    : "border-muted-foreground/30 text-muted-foreground"
+                            ? "border-primary/30 text-primary"
+                            : log.type === "confirmation"
+                              ? "border-success/30 text-success"
+                              : log.type === "query"
+                                ? "border-chart-4/30 text-chart-4"
+                                : log.type === "log"
+                                  ? "border-chart-1/30 text-chart-1"
+                                  : "border-muted-foreground/30 text-muted-foreground"
                             }`}
                         >
                           {log.type}
@@ -108,10 +108,10 @@ export function LogsPage() {
                         <Badge
                           variant="outline"
                           className={`text-[10px] ${log.status === "Normal"
-                              ? "border-success/30 text-success"
-                              : log.status === "Elevated"
-                                ? "border-warning/30 text-warning"
-                                : "border-destructive/30 text-destructive"
+                            ? "border-success/30 text-success"
+                            : log.status === "Elevated"
+                              ? "border-warning/30 text-warning"
+                              : "border-destructive/30 text-destructive"
                             }`}
                         >
                           {log.status}
