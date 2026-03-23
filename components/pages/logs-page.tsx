@@ -32,8 +32,8 @@ export function LogsPage() {
         <TabsContent value="voice">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold">Awaaz Baatcheet ki Taareekh</CardTitle>
-              <CardDescription>Tamam user commands aur system responses (Urdu)</CardDescription>
+              <CardTitle className="text-base font-semibold">Voice Activity Logs</CardTitle>
+              <CardDescription>All user commands and system responses</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
