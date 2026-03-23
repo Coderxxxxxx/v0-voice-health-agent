@@ -34,8 +34,9 @@ const languagePatterns = {
 }
 
 // Detect language from user input text
+// For Pakistan, prioritize Roman Urdu detection
 export function detectLanguage(text: string): DetectedLanguage {
-  if (!text) return 'en'
+  if (!text) return 'ur-roman'
   
   const lowerText = text.toLowerCase()
   let urduRomanScore = 0
@@ -73,19 +74,31 @@ export function detectLanguage(text: string): DetectedLanguage {
   const romanUrduMatches = lowerText.match(romanUrduPatterns) || []
   urduRomanScore += romanUrduMatches.length * 2
   
-  // Determine detected language
+  // Determine detected language - For Pakistan, prioritize Roman Urdu
   if (urduRtlScore > englishScore && urduRtlScore > urduRomanScore) {
     return 'ur-rtl'
-  } else if (urduRomanScore > englishScore) {
+  } else if (urduRomanScore >= englishScore) {
+    // In Pakistan, default to Roman Urdu even if scores are close
     return 'ur-roman'
   }
   
-  return 'en'
+  // If equal scores or only English keywords, still prefer Roman Urdu in Pakistan context
+  return 'ur-roman'
 }
 
-// Detect accent/dialect within English (British, American, Indian, Australian, etc.)
+// Detect accent/dialect within English and Urdu (British, American, Indian, Pakistani, Australian, etc.)
 export function detectEnglishDialect(text: string): string {
   const lowerText = text.toLowerCase()
+  
+  // Pakistani English indicators (Urdu influences in English)
+  if (/(aur|hain|woh|bas|yaar|bhai|sahab|paisa|galti|mazak)\b/.test(lowerText)) {
+    return 'Pakistani'
+  }
+  
+  // Pakistani Urdu indicators (different accent/word choices)
+  if (/(walaikum|assalam|alhamdulillah|inshallah|jazakallah|khuda|khair)\b/.test(lowerText)) {
+    return 'Pakistani-Urdu'
+  }
   
   // British English indicators
   if (/(colour|favour|grey|centre|realise|organise)\b/.test(lowerText)) {
@@ -93,7 +106,7 @@ export function detectEnglishDialect(text: string): string {
   }
   
   // Indian English indicators
-  if (/(hai\s|hain\s|kya\s|nahi|beta|sir|madam|please|only)\b/.test(lowerText)) {
+  if (/(hai\s|hain\s|kya\s|nahi|beta|sir|madam|only)\b/.test(lowerText)) {
     return 'Indian'
   }
   

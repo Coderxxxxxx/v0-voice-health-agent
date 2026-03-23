@@ -23,23 +23,23 @@ type Message = {
 }
 
 const quickCommands = [
-  { label: "What are my medications?", icon: Pill },
-  { label: "Check my blood pressure", icon: Heart },
-  { label: "When is my next appointment?", icon: Clock },
-  { label: "Add a reminder: Take vitamin D", icon: Pill },
-  { label: "First aid for headache", icon: AlertCircle },
+  { label: "Meri davayin kya hain?", icon: Pill },
+  { label: "Mera blood pressure check karo", icon: Heart },
+  { label: "Mera agla appointment kab hai?", icon: Clock },
+  { label: "Nai reminder add karo", icon: Pill },
+  { label: "Sar dard ke liye pehli madad", icon: AlertCircle },
 ]
 
 const aiResponses: Record<string, string> = {
-  "what are my medications?": "You currently have 5 active medications: Metoprolol (50mg, twice daily), Lisinopril (10mg, once daily), Atorvastatin (20mg, once daily), Aspirin (81mg, once daily), and Metformin (500mg, twice daily).",
-  "what're my medications?": "You currently have 5 active medications: Metoprolol (50mg, twice daily), Lisinopril (10mg, once daily), Atorvastatin (20mg, once daily), Aspirin (81mg, once daily), and Metformin (500mg, twice daily).",
-  "check my blood pressure": "Your latest blood pressure reading is 128/82 mmHg, recorded today. This is within normal range. Your average over the past week is 135/87 mmHg.",
-  "what's my blood pressure": "Your latest blood pressure reading is 128/82 mmHg, recorded today. This is within normal range. Your average over the past week is 135/87 mmHg.",
-  "when is my next appointment?": "Your next appointment with Dr. James Harrison (Cardiology) is scheduled for March 5, 2026 at 10:00 AM at City General Hospital.",
-  "when's my next appointment": "Your next appointment with Dr. James Harrison (Cardiology) is scheduled for March 5, 2026 at 10:00 AM at City General Hospital.",
-  "add a reminder: take vitamin d": "I've added a new reminder: Take vitamin D supplement daily. Would you like to set a specific time for this reminder?",
-  "first aid for headache": "For a headache, here's what you can do: 1) Rest in a dark, quiet room, 2) Apply a cold or warm compress to your head, 3) Stay hydrated, 4) Take over-the-counter pain relievers like paracetamol if approved by your doctor. 5) If severe or persistent, seek medical attention.",
-  "update my medical history": "I'm ready to update your medical history. What new information would you like to add? You can tell me about new diagnoses, allergies, surgeries, or any other health changes.",
+  "meri davayin kya hain?": "Aap ke paas 5 faal davayin hain: Metoprolol (50mg, din mein 2 baar), Lisinopril (10mg, din mein 1 baar), Atorvastatin (20mg, din mein 1 baar), Aspirin (81mg, din mein 1 baar), aur Metformin (500mg, din mein 2 baar).",
+  "meri davaiyaan kya hain": "Aap ke paas 5 faal davayin hain: Metoprolol (50mg, din mein 2 baar), Lisinopril (10mg, din mein 1 baar), Atorvastatin (20mg, din mein 1 baar), Aspirin (81mg, din mein 1 baar), aur Metformin (500mg, din mein 2 baar).",
+  "mera blood pressure check karo": "Aap ki sabse nayi blood pressure reading 128/82 mmHg hai, jo aaj record ki gai. Yeh normal range mein hai. Aap ka guzra hua hafta average 135/87 mmHg tha.",
+  "mera blood pressure kya hai": "Aap ki sabse nayi blood pressure reading 128/82 mmHg hai, jo aaj record ki gai. Yeh normal range mein hai. Aap ka guzra hua hafta average 135/87 mmHg tha.",
+  "mera agla appointment kab hai?": "Aap ka agla appointment Dr. Ahmed Hassan (Cardiology) ke saath 5 March 2026 ko 10:00 AM par Aga Khan University Hospital, Lahore mein scheduled hai.",
+  "mara agla appointment": "Aap ka agla appointment Dr. Ahmed Hassan (Cardiology) ke saath 5 March 2026 ko 10:00 AM par Aga Khan University Hospital, Lahore mein scheduled hai.",
+  "nai reminder add karo": "Main ne nai reminder add kar di: Vitamin D supplement din mein ek baar lein. Kya aap is ke liye koi specific time set karna chahte ho?",
+  "sar dard ke liye pehli madad": "Sar dard ke liye ye kadam uthayen: 1) Andheri, khamoshi wali jagah par aaram lein, 2) Sar par thandi ya garm compress lagayen, 3) Khub pani pien, 4) Over-the-counter pain reliever jaisa paracetamol le sakte ho (agar doctor ne approve kia ho). 5) Agar bohot bura ho toh turant doctor se milin.",
+  "medical history update karni hai": "Main aap ki medical history update karne ke liye tayyar hoon. Kya nayi information add karna chahte ho? Aap mujhe nayi bimariyon, davai se allergies, surgeries, ya kisi aur health changes ke baare mein bata sakte ho.",
 }
 
 export function VoicePage() {
@@ -129,7 +129,7 @@ export function VoicePage() {
 
     setTimeout(() => {
       const baseResponse = aiResponses[messageText.toLowerCase()] ||
-        "I understand your request. Based on your health profile, I recommend consulting with Dr. Harrison for specific medical advice. Is there anything else I can help you with?"
+        "Main aap ki request samajh gaya. Aap ke health profile ke mutabiq, main aapko Dr. Ahmed Hassan se baat karne ki sifarish karta hoon. Kya main aap ki koyi aur madad kar sakta hoon?"
 
       const responseText = getLanguageSpecificResponse(baseResponse, detectedLang)
 
@@ -217,7 +217,7 @@ export function VoicePage() {
                         />
                       ))}
                     </div>
-                    <span className="text-sm font-medium text-primary">Listening...</span>
+                    <span className="text-sm font-medium text-primary">Suntaa hoon...</span>
                   </div>
                 )}
 
@@ -309,7 +309,7 @@ export function VoicePage() {
                   <div className="text-center">
                     <h3 className="font-semibold">{t('startRecording')}</h3>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Click the microphone button in the header to start recording your voice
+                      Apni awaz record karne ke liye header mein microphone button par click karen
                     </p>
                   </div>
                 </div>
@@ -328,7 +328,7 @@ export function VoicePage() {
                         />
                       ))}
                     </div>
-                    <p className="text-center text-sm font-medium text-primary">Listening...</p>
+                    <p className="text-center text-sm font-medium text-primary">Suntaa hoon...</p>
                   </div>
                 )}
               </div>

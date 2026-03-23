@@ -2,23 +2,23 @@
 
 export const currentUser = {
   id: 1,
-  full_name: "Sarah Mitchell",
+  full_name: "Fatima Khan",
   age: 68,
   gender: "Female",
-  phone: "+1 (555) 234-5678",
-  email: "sarah.mitchell@email.com",
-  emergency_contact: "+1 (555) 876-5432",
+  phone: "+92 (300) 1234567",
+  email: "fatima.khan@email.com",
+  emergency_contact: "+92 (300) 7654321",
   doctor_id: 1,
-  avatar: "SM",
+  avatar: "FK",
 }
 
 export const doctor = {
   id: 1,
-  full_name: "Dr. James Harrison",
+  full_name: "Dr. Ahmed Hassan",
   specialization: "Cardiology",
-  phone: "+1 (555) 111-2222",
-  email: "dr.harrison@hospital.com",
-  hospital: "City General Hospital",
+  phone: "+92 (42) 35555555",
+  email: "dr.ahmed@aga-khan.com",
+  hospital: "Aga Khan University Hospital, Lahore",
 }
 
 export const medications = [
