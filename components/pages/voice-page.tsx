@@ -196,9 +196,9 @@ export function VoicePage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
               <div className="border-b px-4 shrink-0">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="chat">{t('chat')}</TabsTrigger>
-                  <TabsTrigger value="voice">{t('voice')}</TabsTrigger>
-                  <TabsTrigger value="transcripts">{t('transcripts')}</TabsTrigger>
+                  <TabsTrigger value="chat">Chat (Urdu)</TabsTrigger>
+                  <TabsTrigger value="voice">Awaaz Mode</TabsTrigger>
+                  <TabsTrigger value="transcripts">Likhat (Transcripts)</TabsTrigger>
                 </TabsList>
               </div>
 
@@ -393,8 +393,8 @@ export function VoicePage() {
 
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold">Interaction Log</CardTitle>
-              <CardDescription>Recent voice activity</CardDescription>
+              <CardTitle className="text-base font-semibold">Baatcheet Log</CardTitle>
+              <CardDescription>Taaza voice activity</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               {voiceInteractionLogs.slice(0, 4).map((log) => (

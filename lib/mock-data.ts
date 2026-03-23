@@ -142,12 +142,12 @@ export const reminderPerformance = [
 ]
 
 export const voiceInteractionLogs = [
-  { id: 1, timestamp: "08:00 AM", command: "Good morning, VitaVoice", response: "Good morning, Sarah! Time for your Metoprolol and Aspirin.", type: "reminder" },
-  { id: 2, timestamp: "08:05 AM", command: "I've taken my morning medicines", response: "Recorded. Metoprolol and Aspirin marked as taken at 8:05 AM.", type: "confirmation" },
-  { id: 3, timestamp: "09:00 AM", command: "What's my blood pressure today?", response: "Your latest reading is 128/82 mmHg. This is within normal range.", type: "query" },
-  { id: 4, timestamp: "09:10 AM", command: "Remind me about my diet", response: "For today: Low sodium meals recommended. Avoid processed foods. Increase potassium-rich fruits.", type: "info" },
-  { id: 5, timestamp: "11:30 AM", command: "Log my sugar level - 104", response: "Blood sugar 104 mg/dL recorded. This is within your target range.", type: "log" },
-  { id: 6, timestamp: "02:00 PM", command: "When is my next checkup?", response: "Your next appointment with Dr. Harrison is March 5, 2026 at 10:00 AM.", type: "query" },
+  { id: 1, timestamp: "08:00 AM", command: "Assalam-o-alaikum, VitaVoice", response: "Assalam-o-alaikum, Fatima! Aap ke Metoprolol aur Aspirin lene ka waqt aa gaya hai.", type: "reminder" },
+  { id: 2, timestamp: "08:05 AM", command: "Maine apni subah ki davaiyaan le li hain", response: "Bilkul! Metoprolol aur Aspirin 8:05 AM par record ho gayin.", type: "confirmation" },
+  { id: 3, timestamp: "09:00 AM", command: "Mera blood pressure aaj kya hai?", response: "Aap ki taaza reading 128/82 mmHg hai. Yeh normal range mein hai.", type: "query" },
+  { id: 4, timestamp: "09:10 AM", command: "Aaj ke khane ke baare mein batao", response: "Aaj ke liye: Kam namak ka khana recommended hai. Processed foods se bachayen. Potassium wali cheezen zyada le sakte ho.", type: "info" },
+  { id: 5, timestamp: "11:30 AM", command: "Meri sugar level log karo - 104", response: "Blood sugar 104 mg/dL record ho gai. Yeh aap ke target mein hai.", type: "log" },
+  { id: 6, timestamp: "02:00 PM", command: "Mera agla checkup kab hai?", response: "Aap ka agla appointment Dr. Ahmed Hassan ke saath 5 March 2026 ko 10:00 AM par hai.", type: "query" },
 ]
 
 export const diagnosis = {

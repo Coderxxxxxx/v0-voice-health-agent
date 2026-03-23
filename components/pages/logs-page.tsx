@@ -32,17 +32,17 @@ export function LogsPage() {
         <TabsContent value="voice">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold">Voice Interaction History</CardTitle>
-              <CardDescription>All voice commands and system responses</CardDescription>
+              <CardTitle className="text-base font-semibold">Awaaz Baatcheet ki Taareekh</CardTitle>
+              <CardDescription>Tamam user commands aur system responses (Urdu)</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[100px]">Time</TableHead>
-                    <TableHead className="w-[80px]">Type</TableHead>
-                    <TableHead>User Command</TableHead>
-                    <TableHead>System Response</TableHead>
+                    <TableHead className="w-[100px]">Waqt</TableHead>
+                    <TableHead className="w-[80px]">Qism</TableHead>
+                    <TableHead>User Ki Hukum</TableHead>
+                    <TableHead>System Ka Jawab</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
