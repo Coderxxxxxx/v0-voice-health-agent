@@ -84,7 +84,7 @@ export function VoicePage() {
         },
         "I'm ready to update": {
           'ur-roman': "Main aapki medical history update karne ke liye tayyar hoon. Kya nayi information add karna chahte ho? Aap mujhe nayi bimariyon, drug allergies, surgeries, ya kisi aur health changes ke baare mein bata sakte ho.",
-          'ur-rtl': "میں آپ کی طبی تاریخ اپ ڈیٹ کرنے کے لیے تیار ہوں۔ آپ کیا نئی معلومات شامل کرنا چاہتے ہیں؟ آپ مجھے نئی بیماریوں، دوائوں سے الرجی، سرجریز، یا کسی دوسری صحتی تبدیلیوں کے بارے میں بتا سکتے ہو۔"
+          'ur-rtl': "میں آپ کی طبی تاریخ اپ ڈیٹ کرنے کے لیے تیار ہوں۔ آپ کیا نئی معلومات شامل کرنا چاہتے ہیں؟ آپ مجھے نئی بیماریوں، دوائوں سے الرجی، سرجریز، یا کسی دوسری صحتی تبدیلیوں ک�� بارے میں بتا سکتے ہو۔"
         }
       }
 
@@ -196,9 +196,9 @@ export function VoicePage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
               <div className="border-b px-4 shrink-0">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="chat">Chat</TabsTrigger>
-                  <TabsTrigger value="voice"><Voice></Voice> Mode</TabsTrigger>
-                  <TabsTrigger value="transcripts">Transcripts</TabsTrigger>
+                  <TabsTrigger value="chat">Chat (Urdu)</TabsTrigger>
+                  <TabsTrigger value="voice">Awaaz Mode</TabsTrigger>
+                  <TabsTrigger value="transcripts">Likhat (Transcripts)</TabsTrigger>
                 </TabsList>
               </div>
 
