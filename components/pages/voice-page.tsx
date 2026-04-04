@@ -196,9 +196,9 @@ export function VoicePage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col flex-1 overflow-hidden">
               <div className="border-b px-4 shrink-0">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="chat">Chat (Urdu)</TabsTrigger>
-                  <TabsTrigger value="voice">Awaaz Mode</TabsTrigger>
-                  <TabsTrigger value="transcripts">Likhat (Transcripts)</TabsTrigger>
+                  <TabsTrigger value="chat">Chat</TabsTrigger>
+                  <TabsTrigger value="voice">Voice Mode</TabsTrigger>
+                  <TabsTrigger value="transcripts">Transcripts</TabsTrigger>
                 </TabsList>
               </div>
 
