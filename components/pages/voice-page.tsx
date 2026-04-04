@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mic, MicOff, Send, Bot, User, Volume2, Clock, Heart, AlertCircle, Pill } from "lucide-react"
 import { voiceInteractionLogs } from "@/lib/mock-data"
 import { useI18n } from "@/lib/i18n-context"
-import { detectLanguage, detectEnglishDialect, getLanguageSpecificGreeting } from "@/lib/language-detector"
+import { detectLanguage, detectEnglishDialect } from "@/lib/language-detector"
 
 type Message = {
   id: number
